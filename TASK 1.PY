@@ -24,7 +24,5 @@ def checkNumber(num):
         print("нет")
     else:
         print("число больше недели")
-
-
 num = InputNumbers("Введите число: ")
 checkNumber(num) 

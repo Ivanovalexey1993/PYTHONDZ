@@ -1,17 +1,7 @@
+#Вычислить число Пи c заданной точностью d
+#Пример:
+#при d = 0.001, π = 3.141
+#при d = 0.1, π = 3.1
+#при d = 0.00001, π = 3.14154
+#d от 0.1 до 0.0000000001
 
-
-
-
-
-from decimal import Decimal as d
-
-
-def num_accuracy(number, accuracy):
-    result = d(f"{number}").quantize(d(f"{accuracy}"))
-    return result
-
-
-num = float(input("Введите число : "))
-acc = float(input("Enter the required accuracy '0.0001': "))
-
-print(num_accuracy(num, acc))

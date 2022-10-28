@@ -1,40 +1,51 @@
 #Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
 #Входные и выходные данные хранятся в отдельных текстовых файлах.
 
-with open('4A decoded.txt', 'r') as data:
-    my_text = data.read()
 
-def encode_rle(ss):
-    str_code = ''
-    prev_char = ''
+
+
+with open('file_encode.txt', 'w') as data:
+    data.write('WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWBWWWWWWWWWWWWWW')
+
+with open('file_encode.txt', 'r') as data:
+    string = data.readline()
+
+def rle_encode(decoded_string):
+    encoded_string = ''
     count = 1
-    for char in ss:
-        if char != prev_char:
-            if prev_char:
-                str_code += str(count) + prev_char
-            count = 1
-            prev_char = char
-        else:
+    char = decoded_string[0]
+    for i in range(1, len(decoded_string)):
+        if decoded_string[i] == char:
             count += 1
-    return str_code
-
-            
-str_code = encode_rle(my_text)
-print(str_code)
-
-with open('4B encoded.txt', 'r') as data:
-    my_text2 = data.read()
-
-def decoding_rle(ss:str):
-    count = ''
-    str_decode = ''
-    for char in ss:
-        if char.isdigit():
-            count += char 
         else:
-            str_decode += char * int(count)
-            count = ''
-    return str_decode
+            encoded_string = encoded_string + str(count) + char
+            char = decoded_string[i]
+            count = 1
+            encoded_string = encoded_string + str(count) + char
+    return encoded_string
 
-str_decode = decoding_rle(my_text2)
-print(str_decode)
+
+def rle_decode(encoded_string):
+    decoded_string = ''
+    char_amount = ''
+    for i in range(len(encoded_string)):
+        if encoded_string[i].isdigit():
+            char_amount += encoded_string[i]
+        else:
+            decoded_string += encoded_string[i] * int(char_amount)
+        char_amount = ''
+    print(decoded_string)
+
+    return decoded_string
+
+
+with open('file_encode.txt', 'r') as file:
+    decoded_string = file.read()
+
+with open('file_decode.txt', 'w') as file:
+    encoded_string = rle_encode(decoded_string)
+    file.write(encoded_string)
+
+print('Decoded string: \t' + decoded_string)
+print('Encoded string: \t' + rle_encode(decoded_string))
+print(f'Compress ratio: \t{round(len(decoded_string) / len(encoded_string), 1)}')

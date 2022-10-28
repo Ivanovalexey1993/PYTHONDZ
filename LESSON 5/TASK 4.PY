@@ -1,34 +1,40 @@
 #Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
 #Входные и выходные данные хранятся в отдельных текстовых файлах.
 
+with open('4A decoded.txt', 'r') as data:
+    my_text = data.read()
 
-
-
-def coding(txt):
+def encode_rle(ss):
+    str_code = ''
+    prev_char = ''
     count = 1
-    res = ''
-    for i in range(len(txt)-1):
-        if txt[i] == txt[i+1]:
-            count += 1
-        else:
-            res = res + str(count) + txt[i]
+    for char in ss:
+        if char != prev_char:
+            if prev_char:
+                str_code += str(count) + prev_char
             count = 1
-    if count > 1 or (txt[len(txt)-2] != txt[-1]):
-        res = res + str(count) + txt[-1]
-    return res
-
-def decoding(txt):
-    number = ''
-    res = ''
-    for i in range(len(txt)):
-        if not txt[i].isalpha():
-            number += txt[i]
+            prev_char = char
         else:
-            res = res + txt[i] * int(number)
-            number = ''
-    return res
+            count += 1
+    return str_code
 
+            
+str_code = encode_rle(my_text)
+print(str_code)
 
-s = input("Введите текст: ")
-print(f"Текст после кодировки: {coding(s)}")
-print(f"Текст после дешифровки: {decoding(coding(s))}")
+with open('4B encoded.txt', 'r') as data:
+    my_text2 = data.read()
+
+def decoding_rle(ss:str):
+    count = ''
+    str_decode = ''
+    for char in ss:
+        if char.isdigit():
+            count += char 
+        else:
+            str_decode += char * int(count)
+            count = ''
+    return str_decode
+
+str_decode = decoding_rle(my_text2)
+print(str_decode)
